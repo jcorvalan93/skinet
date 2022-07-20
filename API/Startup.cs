@@ -26,6 +26,14 @@ namespace API
 
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
+
+            services.AddCors(opt => 
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.WithOrigins("https://localhost:7239").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +47,8 @@ namespace API
 
             app.UseRouting();
             app.UseStaticFiles();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
